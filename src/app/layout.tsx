@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SentIA | Tu Asistente de Bienestar Mental",
     description: "Reflexiona, entiende tus emociones y mejora tu calidad de vida interactuando con SentIA, impulsado por IA.",
-    url: "https://SentIA-app-orpin.vercel.app", // Reemplazaremos con dominio final si hay
+    url: "https://clarity-xi-two.vercel.app", // Reemplazaremos con dominio final si hay
     siteName: "SentIA AI",
     locale: "es_ES",
     type: "website",
