@@ -9,7 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const schemaInstructions = `
 /* 
   Ejecuta este SQL en el SQL Editor de tu proyecto Supabase 
-  para crear las tablas necesarias para Clarity.
+  para crear las tablas necesarias para SentIA.
 */
 
 -- Tabla de Usuarios (extendiendo auth.users)
@@ -60,3 +60,4 @@ CREATE POLICY "Usuarios pueden insertar mensajes en sus conversaciones." ON publ
   )
 );
 `;
+

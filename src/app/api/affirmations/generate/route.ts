@@ -86,3 +86,4 @@ RESPONDE ÚNICAMENTE CON EL JSON: { "affirmation": "..." }`;
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
+

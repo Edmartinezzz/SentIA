@@ -7,3 +7,4 @@ export const ClientLiquidBackground = dynamic(
     () => import("@/components/layout/LiquidBackground").then((mod) => mod.LiquidBackground),
     { ssr: false }
 );
+

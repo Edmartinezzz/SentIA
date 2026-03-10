@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = "https://clarity-xi-two.vercel.app" // Update with final custom domain later if added
+    const baseUrl = "https://SentIA-xi-two.vercel.app" // Update with final custom domain later if added
 
     return [
         {
@@ -42,3 +42,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
         }
     ]
 }
+

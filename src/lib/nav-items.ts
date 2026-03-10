@@ -21,3 +21,4 @@ export const navItems = [
     { name: "Perfil", href: "/chat/profile", icon: User },
     { name: "Ajustes", href: "/chat/settings", icon: Settings }, // Renamed from Configuración to Ajustes to fit mobile better natively
 ];
+

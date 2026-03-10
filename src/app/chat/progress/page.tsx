@@ -65,7 +65,7 @@ const BADGES: Badge[] = [
   { type: "resilience", name: "Resiliencia de Acero", icon: Zap, color: "text-amber-500 bg-amber-100" },
   { type: "calm", name: "Maestro de la Calma", icon: Wind, color: "text-blue-500 bg-blue-100" },
   { type: "self_care", name: "Guardián del Bienestar", icon: HeartPulse, color: "text-rose-500 bg-rose-100" },
-  { type: "clarity", name: "Mente de Cristal", icon: Star, color: "text-violet-500 bg-violet-100" },
+  { type: "SentIA", name: "Mente de Cristal", icon: Star, color: "text-violet-500 bg-violet-100" },
   { type: "discipline", name: "Hábito de Oro", icon: Award, color: "text-emerald-500 bg-emerald-100" },
 ];
 
@@ -97,19 +97,19 @@ export default function ProgressPage() {
 
       if (!session) {
         // MODO INVITADO
-        const storedRecs = window.localStorage.getItem("clarity_guest_recs");
+        const storedRecs = window.localStorage.getItem("SentIA_guest_recs");
         if (storedRecs) {
           setRecommendations(JSON.parse(storedRecs));
         }
 
-        const storedStats = window.localStorage.getItem("clarity_conversations");
+        const storedStats = window.localStorage.getItem("SentIA_conversations");
         if (storedStats) {
           const guestConvs = JSON.parse(storedStats);
           processMessagesForStats(guestConvs.flatMap((c: any) => c.messages || []));
         }
 
         // Cargar ánimos de invitado
-        const storedMoods = window.localStorage.getItem("clarity_guest_moods");
+        const storedMoods = window.localStorage.getItem("SentIA_guest_moods");
         if (storedMoods) {
           setEmotionLogs(JSON.parse(storedMoods));
         }
@@ -203,7 +203,7 @@ export default function ProgressPage() {
   };
 
   const syncGuestProgress = async (uid: string) => {
-    const stored = window.localStorage.getItem("clarity_guest_recs");
+    const stored = window.localStorage.getItem("SentIA_guest_recs");
     if (!stored) return;
 
     try {
@@ -225,7 +225,7 @@ export default function ProgressPage() {
         await supabase.from("progress_recommendations").insert(toInsert);
       }
 
-      window.localStorage.removeItem("clarity_guest_recs");
+      window.localStorage.removeItem("SentIA_guest_recs");
     } catch (e) {
       console.error("Error syncing progress:", e);
     }
@@ -330,7 +330,7 @@ export default function ProgressPage() {
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`Clarity_Reporte_${new Date().toISOString().split("T")[0]}.pdf`);
+      pdf.save(`SentIA_Reporte_${new Date().toISOString().split("T")[0]}.pdf`);
 
       // Mostrar botones de acción de nuevo
       actionButtons.forEach((btn: any) => (btn.style.display = "flex"));
@@ -415,7 +415,7 @@ export default function ProgressPage() {
     if (!userId) {
       const updated = recommendations.map(r => r.id === id ? { ...r, completed: !currentStatus } : r);
       setRecommendations(updated);
-      window.localStorage.setItem("clarity_guest_recs", JSON.stringify(updated));
+      window.localStorage.setItem("SentIA_guest_recs", JSON.stringify(updated));
       return;
     }
 
@@ -713,7 +713,7 @@ export default function ProgressPage() {
               ) : (
                 <div className="py-10 text-center space-y-4">
                   <Sparkles className="h-8 w-8 mx-auto text-outline animate-pulse" />
-                  <p className="text-sm font-bold text-outline italic">Chatea con Clarity para empezar el seguimiento.</p>
+                  <p className="text-sm font-bold text-outline italic">Chatea con SentIA para empezar el seguimiento.</p>
                 </div>
               )}
             </div>
@@ -757,7 +757,7 @@ export default function ProgressPage() {
             className="rounded-[32px] bg-primary p-8 text-on-primary shadow-lg relative overflow-hidden group"
           >
             <HeartPulse className="mb-4 h-10 w-10 text-on-primary opacity-80" />
-            <h4 className="text-xl font-bold mb-3 tracking-tight">Consejo de Clarity</h4>
+            <h4 className="text-xl font-bold mb-3 tracking-tight">Consejo de SentIA</h4>
             <p className="text-sm font-medium leading-relaxed italic opacity-90">
               "El progreso no es lineal. Celebrar estas pequeñas acciones diarias es el primer paso para una mente más tranquila."
             </p>
@@ -811,3 +811,4 @@ export default function ProgressPage() {
     </div>
   );
 }
+

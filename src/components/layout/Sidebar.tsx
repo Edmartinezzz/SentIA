@@ -24,7 +24,7 @@ export default function Sidebar() {
                         <Sparkles className="h-6 w-6" />
                     </div>
                     <span className="text-2xl font-black tracking-tighter bg-gradient-to-r from-primary to-[#008B8B] bg-clip-text text-transparent">
-                        Clarity
+                        SentIA
                     </span>
                 </Link>
                 <ThemeToggle />
@@ -82,3 +82,4 @@ export default function Sidebar() {
         </div>
     );
 }
+

@@ -18,7 +18,7 @@ const BADGE_CONFIG: Record<string, { icon: any, color: string, bg: string }> = {
     resilience: { icon: Zap, color: "text-amber-500", bg: "bg-amber-100 dark:bg-amber-900/30" },
     calm: { icon: Wind, color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-900/30" },
     self_care: { icon: HeartPulse, color: "text-rose-500", bg: "bg-rose-100 dark:bg-rose-900/30" },
-    clarity: { icon: Star, color: "text-violet-500", bg: "bg-violet-100 dark:bg-violet-900/30" },
+    SentIA: { icon: Star, color: "text-violet-500", bg: "bg-violet-100 dark:bg-violet-900/30" },
     discipline: { icon: Award, color: "text-emerald-500", bg: "bg-emerald-100 dark:bg-emerald-900/30" },
 };
 
@@ -166,3 +166,4 @@ export default function BadgesPage() {
         </div>
     );
 }
+

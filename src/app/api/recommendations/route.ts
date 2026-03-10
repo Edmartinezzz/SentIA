@@ -21,7 +21,7 @@ export async function POST(req: Request) {
                 if (msgError) throw msgError;
 
                 chatContext = messages
-                    ?.map((m) => `${m.role === "user" ? "Usuario" : "Clarity"}: ${m.content}`)
+                    ?.map((m) => `${m.role === "user" ? "Usuario" : "SentIA"}: ${m.content}`)
                     .join("\n") || "";
             } else {
                 const { data: convs, error: convError } = await supabase
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
                     chatContext = messages
                         ?.reverse()
-                        .map((m) => `${m.role === "user" ? "Usuario" : "Clarity"}: ${m.content}`)
+                        .map((m) => `${m.role === "user" ? "Usuario" : "SentIA"}: ${m.content}`)
                         .join("\n") || "";
                 }
             }
@@ -111,3 +111,4 @@ export async function POST(req: Request) {
         });
     }
 }
+

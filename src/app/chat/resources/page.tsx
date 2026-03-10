@@ -42,7 +42,7 @@ export default function ResourcesPage() {
                 setConversations(convs || []);
             } else {
                 // MODO INVITADO: Cargar desde localStorage
-                const stored = window.localStorage.getItem("clarity_conversations");
+                const stored = window.localStorage.getItem("SentIA_conversations");
                 if (stored) {
                     setConversations(JSON.parse(stored));
                 }
@@ -61,11 +61,11 @@ export default function ResourcesPage() {
             if (!userId && selectedConvId) {
                 const conv = conversations.find(c => c.id === selectedConvId);
                 if (conv) {
-                    guestContext = conv.messages.map((m: any) => `${m.role === 'user' ? 'Usuario' : 'Clarity'}: ${m.content}`).join("\n");
+                    guestContext = conv.messages.map((m: any) => `${m.role === 'user' ? 'Usuario' : 'SentIA'}: ${m.content}`).join("\n");
                 }
             } else if (!userId) {
                 // Todo el proceso de invitado
-                guestContext = conversations.flatMap(c => c.messages || []).map((m: any) => `${m.role === 'user' ? 'Usuario' : 'Clarity'}: ${m.content}`).slice(-20).join("\n");
+                guestContext = conversations.flatMap(c => c.messages || []).map((m: any) => `${m.role === 'user' ? 'Usuario' : 'SentIA'}: ${m.content}`).slice(-20).join("\n");
             }
 
             const response = await fetch("/api/recommendations", {
@@ -85,7 +85,7 @@ export default function ResourcesPage() {
             if (result.error && !result.books) throw new Error(result.error);
 
             setData(result);
-            localStorage.setItem(`clarity_recs_${userId}`, JSON.stringify(result));
+            localStorage.setItem(`SentIA_recs_${userId}`, JSON.stringify(result));
         } catch (error) {
             console.error(error);
         } finally {
@@ -95,7 +95,7 @@ export default function ResourcesPage() {
 
     useEffect(() => {
         if (userId) {
-            const cached = localStorage.getItem(`clarity_recs_${userId}`);
+            const cached = localStorage.getItem(`SentIA_recs_${userId}`);
             if (cached) setData(JSON.parse(cached));
         }
     }, [userId]);
@@ -127,7 +127,7 @@ export default function ResourcesPage() {
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight text-primary">Recursos para ti</h1>
                     <p className="mt-2 text-[16px] font-medium text-on-surface-variant">
-                        Selecciona un chat para que Clarity analice esa necesidad específica.
+                        Selecciona un chat para que SentIA analice esa necesidad específica.
                     </p>
                 </div>
                 <button
@@ -350,3 +350,4 @@ export default function ResourcesPage() {
         </div>
     );
 }
+

@@ -315,3 +315,4 @@ export default function WellnessGoals({ userId }: Props) {
         </div>
     );
 }
+

@@ -103,7 +103,7 @@ export default function ProfilePage() {
       <div>
         <h1 className="text-4xl font-bold tracking-tight text-primary">Tu espacio</h1>
         <p className="mt-2 text-[16px] text-on-surface-variant font-medium max-w-2xl">
-          Gestiona tu perfil y el acceso seguro a Clarity. Recuerda que esta
+          Gestiona tu perfil y el acceso seguro a SentIA. Recuerda que esta
           herramienta no sustituye a un profesional de la salud mental.
         </p>
       </div>
@@ -121,7 +121,7 @@ export default function ProfilePage() {
             <div>
               <h2 className="text-xl font-bold text-on-surface">Perfil emocional</h2>
               <p className="text-[13px] text-on-surface-variant font-medium">
-                Un resumen suave de quién eres dentro de Clarity.
+                Un resumen suave de quién eres dentro de SentIA.
               </p>
             </div>
           </div>
@@ -253,4 +253,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
 

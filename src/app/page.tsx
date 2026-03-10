@@ -85,7 +85,7 @@ export default function Home() {
           </div>
 
           <h1 className="mb-4 text-5xl font-bold tracking-tight text-on-surface sm:text-7xl">
-            Clarity
+            SentIA
           </h1>
 
           <p className="mb-8 max-w-xl text-xl font-medium leading-relaxed text-on-surface-variant sm:text-2xl">
@@ -106,7 +106,7 @@ export default function Home() {
             >
               <span className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <span className="relative z-10 flex items-center gap-2 transition-colors">
-                Continuar a mi Clarity
+                Continuar a mi SentIA
                 <ArrowRight className="h-5 w-5" />
               </span>
             </Link>
@@ -221,9 +221,10 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mt-16 text-xs font-medium text-on-surface-variant/60"
         >
-          Al iniciar sesión, Clarity podrá recordarte, saludarte por tu nombre y guardar todo tu progreso emocional.
+          Al iniciar sesión, SentIA podrá recordarte, saludarte por tu nombre y guardar todo tu progreso emocional.
         </motion.p>
       </main>
     </div>
   );
 }
+

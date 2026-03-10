@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             if (!messagesError && messages && messages.length > 0) {
                 chatContext = messages
                     .reverse()
-                    .map((m) => `${m.role === "user" ? "Usuario" : "Clarity"}: ${m.content}`)
+                    .map((m) => `${m.role === "user" ? "Usuario" : "SentIA"}: ${m.content}`)
                     .join("\n");
             }
         }
@@ -153,3 +153,4 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: true, error: "Fallback used", recommendations: defaultData }, { status: 200 });
     }
 }
+

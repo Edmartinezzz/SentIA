@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         // Formatear contexto para el análisis
         const chatContext = messages
             .slice(-10)
-            .map((m: any) => `${m.role === "user" ? "Usuario" : "Clarity"}: ${m.content}`)
+            .map((m: any) => `${m.role === "user" ? "Usuario" : "SentIA"}: ${m.content}`)
             .join("\n");
 
         const prompt = `Analiza el siguiente fragmento de una conversación de apoyo emocional y determina el estado emocional predominante del Usuario.
@@ -111,3 +111,4 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
+

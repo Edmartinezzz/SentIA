@@ -13,23 +13,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Clarity | Asistente de Bienestar Emocional con Inteligencia Artificial",
+  title: "SentIA | Asistente de Bienestar Emocional con Inteligencia Artificial",
   description:
-    "Clarity es tu asistente personal de bienestar emocional impulsado por IA. Comprende tus emociones, registra tu diario, cumple misiones diarias y obtén planes de mejora basados en terapia cognitivo-conductual.",
-  keywords: ["bienestar", "emocional", "IA", "salud mental", "diario", "psicología", "Clarity"],
+    "SentIA es tu asistente personal de bienestar emocional impulsado por IA. Comprende tus emociones, registra tu diario, cumple misiones diarias y obtén planes de mejora basados en terapia cognitivo-conductual.",
+  keywords: ["bienestar", "emocional", "IA", "salud mental", "diario", "psicología", "SentIA"],
   authors: [{ name: "Carlos Martinez" }],
   creator: "Carlos Martinez",
   openGraph: {
-    title: "Clarity | Tu Asistente de Bienestar Mental",
-    description: "Reflexiona, entiende tus emociones y mejora tu calidad de vida interactuando con Clarity, impulsado por IA.",
-    url: "https://clarity-app-orpin.vercel.app", // Reemplazaremos con dominio final si hay
-    siteName: "Clarity AI",
+    title: "SentIA | Tu Asistente de Bienestar Mental",
+    description: "Reflexiona, entiende tus emociones y mejora tu calidad de vida interactuando con SentIA, impulsado por IA.",
+    url: "https://SentIA-app-orpin.vercel.app", // Reemplazaremos con dominio final si hay
+    siteName: "SentIA AI",
     locale: "es_ES",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Clarity | Asistente de Bienestar",
+    title: "SentIA | Asistente de Bienestar",
     description: "Tu espacio seguro para la salud mental diaria.",
   },
   robots: {
@@ -70,3 +70,4 @@ export default function RootLayout({
     </html>
   );
 }
+

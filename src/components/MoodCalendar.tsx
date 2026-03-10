@@ -93,9 +93,9 @@ export default function MoodCalendar({ emotionLogs: initialLogs, userId, onLogAd
                 }
             } else {
                 // Modo invitado: usar localStorage
-                const stored = localStorage.getItem("clarity_guest_moods");
+                const stored = localStorage.getItem("SentIA_guest_moods");
                 const guestMoods = stored ? JSON.parse(stored) : [];
-                localStorage.setItem("clarity_guest_moods", JSON.stringify([...guestMoods, newLog]));
+                localStorage.setItem("SentIA_guest_moods", JSON.stringify([...guestMoods, newLog]));
             }
 
             // Actualizar estado local inmediatamente
@@ -263,3 +263,4 @@ export default function MoodCalendar({ emotionLogs: initialLogs, userId, onLogAd
         </div>
     );
 }
+

@@ -37,6 +37,7 @@ export default function ChatPage() {
     const [micPermission, setMicPermission] = useState<'unknown' | 'granted' | 'denied'>('unknown');
     const [sttSupported, setSttSupported] = useState(true);
     const [latestMood, setLatestMood] = useState<string | null>(null);
+    const [showMobileHistory, setShowMobileHistory] = useState(false);
 
     const { suggestSound, suggestedSoundId, playSound, clearSuggestion } = useAudio();
 
@@ -170,7 +171,7 @@ export default function ChatPage() {
                         {
                             id: "onboarding",
                             role: "assistant",
-                            content: "¡Hola! Soy Clarity, tu asistente de bienestar personal. ✨ ¿Cómo te llamas?",
+                            content: "¡Hola! Soy SentIA, tu asistente de bienestar personal. ✨ ¿Cómo te llamas?",
                             created_at: new Date().toISOString()
                         } as ChatMessage
                     ]);
@@ -225,7 +226,7 @@ export default function ChatPage() {
                 }
             }
         } else {
-            const stored = window.localStorage.getItem("clarity_conversations");
+            const stored = window.localStorage.getItem("SentIA_conversations");
             if (stored) {
                 try {
                     const parsed: Conversation[] = JSON.parse(stored);
@@ -245,7 +246,7 @@ export default function ChatPage() {
     useEffect(() => {
         if (!userId && conversations.length > 0) {
             const timer = setTimeout(() => {
-                localStorage.setItem("clarity_conversations", JSON.stringify(conversations));
+                localStorage.setItem("SentIA_conversations", JSON.stringify(conversations));
             }, 1000);
             return () => clearTimeout(timer);
         }
@@ -282,6 +283,67 @@ export default function ChatPage() {
 
     return (
         <div className="flex flex-col md:flex-row h-full w-full relative overflow-hidden bg-background">
+
+            {/* Cabecera Móvil (Solo visible en pantallas pequeñas) */}
+            <div className="xl:hidden flex items-center justify-between px-4 py-3 bg-surface-container/30 backdrop-blur-md border-b border-outline/5 z-20 shrink-0">
+                <button
+                    onClick={() => setShowMobileHistory(true)}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-secondary-container/40 hover:bg-secondary-container/60 text-secondary font-bold rounded-2xl transition-colors"
+                >
+                    <Clock3 className="h-4 w-4" />
+                    <span className="text-sm">Historial de Chats</span>
+                </button>
+                <button
+                    onClick={handleNewConversation}
+                    className="p-3 bg-primary text-on-primary rounded-2xl shadow-sm hover:scale-105 active:scale-95 transition-all"
+                >
+                    <Plus className="h-5 w-5" />
+                </button>
+            </div>
+
+            {/* Panel Lateral Móvil para Historial */}
+            <AnimatePresence>
+                {showMobileHistory && (
+                    <motion.div
+                        initial={{ x: "-100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "-100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="absolute inset-0 z-50 bg-background flex flex-col xl:hidden"
+                    >
+                        <div className="p-6 flex items-center justify-between bg-surface-container-low border-b border-outline/5 shrink-0">
+                            <div className="flex items-center gap-3">
+                                <Clock3 className="h-5 w-5 text-secondary" />
+                                <span className="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Historial</span>
+                            </div>
+                            <button onClick={() => setShowMobileHistory(false)} className="p-2 rounded-full bg-surface-variant/50 text-on-surface hover:bg-surface-variant transition-colors">
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+                        <div className="p-4 space-y-3 overflow-y-auto flex-1 bg-surface-container-low pb-24">
+                            {conversations.length === 0 ? (
+                                <p className="text-center text-sm font-medium text-on-surface-variant mt-10">No hay conversaciones previas.</p>
+                            ) : (
+                                conversations.map((conv) => (
+                                    <div key={conv.id} className="group relative">
+                                        <button
+                                            onClick={() => { handleSelectConversation(conv); setShowMobileHistory(false); }}
+                                            className={`w-full text-left truncate rounded-[24px] px-5 py-4 text-[14px] font-bold transition-all ${conv.id === activeConversationId ? "bg-secondary-container text-on-secondary-container scale-[1.02]" : "bg-surface-container text-on-surface-variant border border-outline/5 hover:border-outline/20"}`}
+                                        >
+                                            {conv.title}
+                                        </button>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1 bg-gradient-to-l from-surface-container via-surface-container to-transparent pl-4 py-1 rounded-r-[24px]">
+                                            <button onClick={(e) => { e.stopPropagation(); setEditingId(conv.id); setEditTitle(conv.title); }} className="text-primary/70 hover:text-primary p-2"><Edit2 className="h-4 w-4" /></button>
+                                            <button onClick={(e) => { e.stopPropagation(); handleDeleteConversation(conv.id); }} className="text-error/70 hover:text-error p-2"><Trash2 className="h-4 w-4" /></button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <main className="flex-1 flex flex-col h-full overflow-hidden relative z-10">
                 <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-hide">
                     <div className="mx-auto max-w-3xl space-y-6">
@@ -291,7 +353,7 @@ export default function ChatPage() {
                                     <HeartPulse className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <p className="text-[15px] font-bold text-on-surface">Clarity nota que has tenido momentos difíciles.</p>
+                                    <p className="text-[15px] font-bold text-on-surface">SentIA nota que has tenido momentos difíciles.</p>
                                     <p className="text-[13px] text-on-surface-variant font-medium mt-0.5">Respira profundo, estoy aquí para escucharte.</p>
                                 </div>
                             </motion.div>
@@ -366,8 +428,8 @@ export default function ChatPage() {
 
                                     if (userId) await supabase.from("messages").insert({ conversation_id: currentConvId, role: "user", content });
 
-                                    const brief = localStorage.getItem("clarity_brief_responses") === "true";
-                                    const action = localStorage.getItem("clarity_action_focus") === "true";
+                                    const brief = localStorage.getItem("SentIA_brief_responses") === "true";
+                                    const action = localStorage.getItem("SentIA_action_focus") === "true";
 
                                     const { data: { session } } = await supabase.auth.getSession();
                                     const token = session?.access_token;
@@ -487,3 +549,4 @@ export default function ChatPage() {
         </div>
     );
 }
+

@@ -11,9 +11,9 @@ export default function SettingsPage() {
 
   // Cargar preferencias
   useEffect(() => {
-    const savedTheme = localStorage.getItem("clarity_theme") as any;
-    const savedBrief = localStorage.getItem("clarity_brief_responses");
-    const savedAction = localStorage.getItem("clarity_action_focus");
+    const savedTheme = localStorage.getItem("SentIA_theme") as any;
+    const savedBrief = localStorage.getItem("SentIA_brief_responses");
+    const savedAction = localStorage.getItem("SentIA_action_focus");
 
     if (savedTheme) setTheme(savedTheme);
     if (savedBrief) setBriefResponses(savedBrief === "true");
@@ -35,17 +35,17 @@ export default function SettingsPage() {
         element.classList.remove("dark");
       }
     }
-    localStorage.setItem("clarity_theme", theme);
+    localStorage.setItem("SentIA_theme", theme);
   }, [theme]);
 
   const toggleBrief = (val: boolean) => {
     setBriefResponses(val);
-    localStorage.setItem("clarity_brief_responses", String(val));
+    localStorage.setItem("SentIA_brief_responses", String(val));
   };
 
   const toggleAction = (val: boolean) => {
     setActionFocus(val);
-    localStorage.setItem("clarity_action_focus", String(val));
+    localStorage.setItem("SentIA_action_focus", String(val));
   };
   return (
     <div className="flex h-full flex-col gap-10 bg-background px-4 py-8 text-on-surface md:px-10 overflow-y-auto scrollbar-hide">
@@ -55,7 +55,7 @@ export default function SettingsPage() {
             Configuración suave
           </h1>
           <p className="mt-2 text-[16px] text-on-surface-variant font-medium max-w-2xl">
-            Ajusta pequeños detalles de cómo Clarity te acompaña. Siempre de
+            Ajusta pequeños detalles de cómo SentIA te acompaña. Siempre de
             forma calmada y respetuosa.
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function SettingsPage() {
             <div>
               <h2 className="text-xl font-bold text-on-surface">Tono y estilo</h2>
               <p className="text-[13px] text-on-surface-variant font-medium">
-                Personaliza la forma en que Clarity interactúa contigo.
+                Personaliza la forma en que SentIA interactúa contigo.
               </p>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function SettingsPage() {
             <div>
               <h2 className="text-xl font-bold text-on-surface">Apariencia</h2>
               <p className="text-[13px] text-on-surface-variant font-medium">
-                Ajusta cómo se ve Clarity según tu comodidad visual.
+                Ajusta cómo se ve SentIA según tu comodidad visual.
               </p>
             </div>
           </div>
@@ -170,4 +170,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
 
