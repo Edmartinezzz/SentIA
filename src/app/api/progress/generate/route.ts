@@ -4,6 +4,16 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+    return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
     try {
         const authHeader = req.headers.get("Authorization");
@@ -11,14 +21,14 @@ export async function POST(req: Request) {
 
         if (!token) {
             console.error("API Error: No se proporcionó token");
-            return NextResponse.json({ error: "Falta token de autorización" }, { status: 401 });
+            return NextResponse.json({ error: "Falta token de autorización" }, { status: 401, headers: corsHeaders });
         }
 
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
 
         if (authError || !user) {
             console.error("API Auth Error:", authError?.message || "Usuario no encontrado");
-            return NextResponse.json({ error: "Sesión inválida o expirada" }, { status: 401 });
+            return NextResponse.json({ error: "Sesión inválida o expirada" }, { status: 401, headers: corsHeaders });
         }
 
         const userId = user.id;
@@ -126,11 +136,11 @@ export async function POST(req: Request) {
             if (insertError) {
                 console.error("Error al insertar recomendaciones:", insertError);
                 // Si la DB falla, igual devolvemos las recomendaciones generadas para que el UI no se rompa
-                return NextResponse.json({ success: true, recommendations: toInsert.map((item, idx) => ({ ...item, id: `temp-${idx}` })) });
+                return NextResponse.json({ success: true, recommendations: toInsert.map((item, idx) => ({ ...item, id: `temp-${idx}` })) }, { headers: corsHeaders });
             }
 
             console.log("Nuevas recomendaciones guardadas en Supabase.");
-            return NextResponse.json({ success: true, recommendations: insertedData });
+            return NextResponse.json({ success: true, recommendations: insertedData }, { headers: corsHeaders });
 
         } catch (groqErr: any) {
             console.error("Error durante el proceso de Groq:", groqErr.message);
@@ -150,7 +160,7 @@ export async function POST(req: Request) {
             { id: "def-6", content: "Infusión de manzanilla antes de dormir", category: "food", completed: false }
         ];
 
-        return NextResponse.json({ success: true, error: "Fallback used", recommendations: defaultData }, { status: 200 });
+        return NextResponse.json({ success: true, error: "Fallback used", recommendations: defaultData }, { status: 200, headers: corsHeaders });
     }
 }
 

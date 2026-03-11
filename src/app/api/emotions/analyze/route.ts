@@ -4,25 +4,35 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+    return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
     try {
         const authHeader = req.headers.get("Authorization");
         const token = authHeader?.split(" ")[1];
 
         if (!token) {
-            return NextResponse.json({ error: "Falta token de autorización" }, { status: 401 });
+            return NextResponse.json({ error: "Falta token de autorización" }, { status: 401, headers: corsHeaders });
         }
 
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
 
         if (authError || !user) {
-            return NextResponse.json({ error: "Sesión inválida" }, { status: 401 });
+            return NextResponse.json({ error: "Sesión inválida" }, { status: 401, headers: corsHeaders });
         }
 
         const { conversationId, messages } = await req.json();
 
         if (!messages || messages.length === 0) {
-            return NextResponse.json({ error: "No hay mensajes para analizar" }, { status: 400 });
+            return NextResponse.json({ error: "No hay mensajes para analizar" }, { status: 400, headers: corsHeaders });
         }
 
         // Formatear contexto para el análisis
@@ -99,7 +109,7 @@ export async function POST(req: Request) {
                 return NextResponse.json({ success: false, error: insertError.message, analysis });
             }
 
-            return NextResponse.json({ success: true, analysis });
+            return NextResponse.json({ success: true, analysis }, { headers: corsHeaders });
 
         } catch (dbErr: any) {
             console.error("Database error in emotion analysis:", dbErr);
@@ -108,7 +118,7 @@ export async function POST(req: Request) {
 
     } catch (error: any) {
         console.error("Error en API de emociones:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500, headers: corsHeaders });
     }
 }
 

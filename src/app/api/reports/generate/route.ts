@@ -4,15 +4,25 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+    return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
     try {
         const authHeader = req.headers.get("Authorization");
         const token = authHeader?.split(" ")[1];
 
-        if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+        if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401, headers: corsHeaders });
 
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-        if (authError || !user) return NextResponse.json({ error: "Sesión inválida" }, { status: 401 });
+        if (authError || !user) return NextResponse.json({ error: "Sesión inválida" }, { status: 401, headers: corsHeaders });
 
         const userId = user.id;
 
@@ -41,7 +51,7 @@ export async function POST(req: Request) {
             return NextResponse.json({
                 error: "Not enough data",
                 message: "Necesitas registrar al menos una emoción o escribir en el diario para generar un reporte semanal."
-            }, { status: 400 });
+            }, { status: 400, headers: corsHeaders });
         }
 
         // 3. Preparar contexto para la IA
@@ -113,19 +123,19 @@ export async function POST(req: Request) {
 
             if (saveError) {
                 console.error("Error guardando reporte:", saveError);
-                return NextResponse.json({ success: true, report: { ...report, id: "temp" } });
+                return NextResponse.json({ success: true, report: { ...report, id: "temp" } }, { headers: corsHeaders });
             }
 
-            return NextResponse.json({ success: true, report: savedReport });
+            return NextResponse.json({ success: true, report: savedReport }, { headers: corsHeaders });
 
         } catch (groqErr) {
             console.error("Groq error in weekly report:", groqErr);
-            return NextResponse.json({ error: "No se pudo generar el reporte" }, { status: 500 });
+            return NextResponse.json({ error: "No se pudo generar el reporte" }, { status: 500, headers: corsHeaders });
         }
 
     } catch (error: any) {
         console.error("Error generating weekly report:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500, headers: corsHeaders });
     }
 }
 

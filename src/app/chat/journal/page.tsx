@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { getApiUrl } from "@/lib/api-utils";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     PencilLine, Sparkles, BookOpen, Clock, Calendar,
@@ -95,7 +96,7 @@ export default function JournalPage() {
             if (!session) return;
 
             // 1. Analizar con IA primero
-            const analyzeResp = await fetch("/api/journal/analyze", {
+            const analyzeResp = await fetch(getApiUrl("/api/journal/analyze"), {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${session.access_token}`,

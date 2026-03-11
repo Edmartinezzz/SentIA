@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getApiUrl } from "@/lib/api-utils";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   HeartPulse,
@@ -280,7 +281,7 @@ export default function ProgressPage() {
 
       if (!session) return;
 
-      const resp = await fetch("/api/progress/generate", {
+      const resp = await fetch(getApiUrl("/api/progress/generate"), {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${session.access_token}`,
@@ -347,7 +348,7 @@ export default function ProgressPage() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      const resp = await fetch("/api/reports/generate", {
+      const resp = await fetch(getApiUrl("/api/reports/generate"), {
         method: "POST",
         headers: { "Authorization": `Bearer ${session.access_token}` }
       });

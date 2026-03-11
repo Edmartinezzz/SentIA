@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Sparkles, MessageCircleHeart, BookOpen, Target, TrendingUp, Music, ArrowRight, Check, Brain, Heart, Star } from "lucide-react";
@@ -78,13 +79,13 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4">
             {isLogged ? (
-              <a href="/chat" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-[#008B8B] text-white font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+              <Link href="/chat" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-[#008B8B] text-white font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20">
                 Ir a mi app <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
             ) : (
-              <a href="/login" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-[#008B8B] text-white font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+              <Link href="/login" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-[#008B8B] text-white font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20">
                 Entrar
-              </a>
+              </Link>
             )}
           </div>
         </div>
@@ -137,9 +138,9 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <a href="/login" className="group flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-primary to-[#008B8B] text-on-primary font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/30">
+            <Link href="/login" className="group flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-primary to-[#008B8B] text-on-primary font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/30">
               Comencemos <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -225,9 +226,9 @@ export default function Home() {
           <p className="text-white/50 text-xl mb-10 font-medium leading-relaxed">
             Únete a cientos de personas que ya utilizan la tecnología para entender mejor su mundo interior.
           </p>
-          <a href="/login" className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl">
+          <Link href="/login" className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl">
             Probar SentIA Gratis <ArrowRight className="h-6 w-6" />
-          </a>
+          </Link>
           <p className="mt-6 text-sm text-white/20 font-bold">No requiere tarjeta de crédito · Acceso instantáneo</p>
         </div>
       </section>

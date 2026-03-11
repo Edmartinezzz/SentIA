@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Mail, ArrowRight, UserCircle2, Lock } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLogin, setIsLogin] = useState(true);
@@ -26,20 +28,20 @@ export default function LoginPage() {
 
                 if (error) throw error;
 
-                window.location.href = "/chat";
+                router.push("/chat/");
             } else {
                 const { data, error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
-                        emailRedirectTo: window.location.origin + "/chat",
+                        emailRedirectTo: window.location.origin + "/chat/",
                     },
                 });
 
                 if (error) throw error;
 
                 // Si el registro es exitoso y no requiere confirmación, lo enviamos al chat
-                window.location.href = "/chat";
+                router.push("/chat/");
             }
         } catch (err: any) {
             setErrorMessage(err.message || "Algo salió mal. Intenta de nuevo.");

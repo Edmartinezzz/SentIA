@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getApiUrl } from "@/lib/api-utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, User, Sparkles, Clock3, Plus, Trash2, Edit2, Check, X, Mic, MicOff, Volume2, VolumeX, Loader2, HeartPulse } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -434,7 +435,7 @@ export default function ChatPage() {
                                     const { data: { session } } = await supabase.auth.getSession();
                                     const token = session?.access_token;
 
-                                    const response = await fetch("/api/chat", {
+                                    const response = await fetch(getApiUrl("/api/chat"), {
                                         method: "POST",
                                         headers: {
                                             "Content-Type": "application/json",
@@ -489,7 +490,7 @@ export default function ChatPage() {
                                     if (userId) {
                                         const { data: { session } } = await supabase.auth.getSession();
                                         const token = session?.access_token;
-                                        const emotionResponse = await fetch("/api/emotions/analyze", {
+                                        const emotionResponse = await fetch(getApiUrl("/api/emotions/analyze"), {
                                             method: "POST",
                                             headers: { "Content-Type": "application/json", ...(token ? { "Authorization": `Bearer ${token}` } : {}) },
                                             body: JSON.stringify({ messages: finalMessages.slice(-10), conversationId: currentConvId, userId })

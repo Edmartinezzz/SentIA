@@ -4,6 +4,16 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+    return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
     try {
         const { userId, conversationId, context } = await req.json();
@@ -82,7 +92,7 @@ export async function POST(req: Request) {
             const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
             const recommendations = JSON.parse(jsonMatch ? jsonMatch[0] : rawContent);
 
-            return NextResponse.json(recommendations);
+            return NextResponse.json(recommendations, { headers: corsHeaders });
 
         } catch (groqErr) {
             console.error("Groq error in recommendations:", groqErr);
@@ -108,7 +118,7 @@ export async function POST(req: Request) {
                 { title: "Se Regalan Dudas", author: "Ashley Frangie", reason: "Cuestionamiento.", image_tag: "questions" },
                 { title: "Medita Podcast", author: "Mar del Cerro", reason: "Paz interior.", image_tag: "breath" }
             ]
-        });
+        }, { headers: corsHeaders });
     }
 }
 

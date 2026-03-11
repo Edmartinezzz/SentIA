@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getApiUrl } from "@/lib/api-utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Library, Music, Sparkles, BookOpen, ExternalLink, RefreshCw, Mic, Youtube, Calendar, MessageSquare } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -68,7 +69,7 @@ export default function ResourcesPage() {
                 guestContext = conversations.flatMap(c => c.messages || []).map((m: any) => `${m.role === 'user' ? 'Usuario' : 'SentIA'}: ${m.content}`).slice(-20).join("\n");
             }
 
-            const response = await fetch("/api/recommendations", {
+            const response = await fetch(getApiUrl("/api/recommendations"), {
                 method: "POST",
                 headers: {
                     "Authorization": session?.access_token ? `Bearer ${session.access_token}` : "",

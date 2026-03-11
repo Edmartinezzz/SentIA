@@ -4,21 +4,31 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+    return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
     try {
         const authHeader = req.headers.get("Authorization");
         const token = authHeader?.split(" ")[1];
 
-        if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+        if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401, headers: corsHeaders });
 
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-        if (authError || !user) return NextResponse.json({ error: "Sesión inválida" }, { status: 401 });
+        if (authError || !user) return NextResponse.json({ error: "Sesión inválida" }, { status: 401, headers: corsHeaders });
 
         const userId = user.id;
         const { items } = await req.json();
 
         if (!items || !Array.isArray(items) || items.length < 1) {
-            return NextResponse.json({ error: "Datos de gratitud inválidos." }, { status: 400 });
+            return NextResponse.json({ error: "Datos de gratitud inválidos." }, { status: 400, headers: corsHeaders });
         }
 
         let promptContext = `El usuario ha registrado las siguientes cosas por las que siente gratitud hoy:\n`;
@@ -79,11 +89,11 @@ RESPONDE ÚNICAMENTE CON EL JSON: { "affirmation": "..." }`;
             return NextResponse.json({ success: false, error: insertError.message });
         }
 
-        return NextResponse.json({ success: true, log: logEntry });
+        return NextResponse.json({ success: true, log: logEntry }, { headers: corsHeaders });
 
     } catch (error: any) {
         console.error("Error procesando práctica de gratitud:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500, headers: corsHeaders });
     }
 }
 

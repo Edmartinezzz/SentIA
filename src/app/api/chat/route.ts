@@ -13,11 +13,15 @@ type IncomingSettings = {
   actionFocus?: boolean;
 };
 
-type ChatRequest = {
-  messages?: IncomingMessage[];
-  userName?: string | null;
-  settings?: IncomingSettings;
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: corsHeaders });
+}
 
 export async function POST(req: Request) {
   try {
@@ -117,13 +121,22 @@ ${contextInfo}`;
 
     return new Response(stream, {
       status: 200,
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
+      headers: { 
+        "Content-Type": "text/plain; charset=utf-8",
+        ...corsHeaders 
+      },
     });
   } catch (error) {
     console.error("Error in chat route (Groq):", error);
     return new Response(
       "Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo.",
-      { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } },
+      { 
+        status: 500, 
+        headers: { 
+          "Content-Type": "text/plain; charset=utf-8",
+          ...corsHeaders
+        } 
+      },
     );
   }
 }

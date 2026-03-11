@@ -4,24 +4,34 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+    return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
     try {
         const authHeader = req.headers.get("Authorization");
         const token = authHeader?.split(" ")[1];
 
         if (!token) {
-            return NextResponse.json({ error: "Falta token de autorización" }, { status: 401 });
+            return NextResponse.json({ error: "Falta token de autorización" }, { status: 401, headers: corsHeaders });
         }
 
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
         if (authError || !user) {
-            return NextResponse.json({ error: "Sesión inválida" }, { status: 401 });
+            return NextResponse.json({ error: "Sesión inválida" }, { status: 401, headers: corsHeaders });
         }
 
         const { content } = await req.json();
 
         if (!content || content.length < 10) {
-            return NextResponse.json({ error: "Contenido demasiado corto" }, { status: 400 });
+            return NextResponse.json({ error: "Contenido demasiado corto" }, { status: 400, headers: corsHeaders });
         }
 
         const prompt = `Actúa como un psicólogo clínico especialista en Terapia Cognitivo-Conductual (CBT).
@@ -61,7 +71,7 @@ export async function POST(req: Request) {
             const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
             const analysis = JSON.parse(jsonMatch ? jsonMatch[0] : rawContent);
 
-            return NextResponse.json({ success: true, analysis });
+            return NextResponse.json({ success: true, analysis }, { headers: corsHeaders });
 
         } catch (groqErr) {
             console.error("Groq Analysis Error:", groqErr);
@@ -80,7 +90,7 @@ export async function POST(req: Request) {
 
     } catch (error) {
         console.error("General Journal API Error:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500, headers: corsHeaders });
     }
 }
 
